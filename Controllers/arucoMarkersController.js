@@ -1,9 +1,9 @@
 const ArucoMarker = require('../models/arucoMarkersModel');
 
 // Mendapatkan semua ArUco markers
-const getAllMarkers = async (req, res) => {
+const getAllArucoMarkers = async (req, res) => {
   try {
-    const result = await ArucoMarker.getAllMarkers();
+    const result = await ArucoMarker.getAllArucoMarkers();
     res.json(result.rows);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -11,10 +11,10 @@ const getAllMarkers = async (req, res) => {
 };
 
 // Mendapatkan ArUco marker berdasarkan ID
-const getMarkerById = async (req, res) => {
+const getArucoMarkerById = async (req, res) => {
   const { marker_id } = req.params;
   try {
-    const result = await ArucoMarker.getMarkerById(marker_id);
+    const result = await ArucoMarker.getArucoMarkerById(marker_id);
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'Marker not found' });
     }
@@ -25,25 +25,22 @@ const getMarkerById = async (req, res) => {
 };
 
 // Membuat ArUco marker baru
-const createMarker = async (req, res) => {
-  const { marker_id, building_id, floor, location_name, connected_rooms } = req.body;
+const createArucoMarker = async (req, res) => {
+  const { building_id, floor, point_name, point_type, left_room_id, right_room_id, forward_room_id, backward_room_id, description } = req.body;
   try {
-    const result = await ArucoMarker.createMarker(marker_id, building_id, floor, location_name, connected_rooms);
-    res.status(201).json(result.rows[0]);
+    const result = await ArucoMarker.createArucoMarker(building_id, floor, point_name, point_type, left_room_id, right_room_id, forward_room_id, backward_room_id, description);
+    res.json(result.rows[0]);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
 // Mengubah data ArUco marker berdasarkan ID
-const updateMarker = async (req, res) => {
-  const { marker_id } = req.params;
-  const { building_id, floor, location_name, connected_rooms } = req.body;
+const updateArucoMarker = async (req, res) => {
+  const { id } = req.params;
+  const { building_id, floor, point_name, point_type, left_room_id, right_room_id, forward_room_id, backward_room_id, description } = req.body;
   try {
-    const result = await ArucoMarker.updateMarker(marker_id, building_id, floor, location_name, connected_rooms);
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'Marker not found' });
-    }
+    const result = await ArucoMarker.updateArucoMarker(id, building_id, floor, point_name, point_type, left_room_id, right_room_id, forward_room_id, backward_room_id, description);
     res.json(result.rows[0]);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -51,20 +48,20 @@ const updateMarker = async (req, res) => {
 };
 
 // Menghapus ArUco marker berdasarkan ID
-const deleteMarker = async (req, res) => {
-  const { marker_id } = req.params;
+const deleteArucoMarker = async (req, res) => {
+  const { id } = req.params;
   try {
-    await ArucoMarker.deleteMarker(marker_id);
-    res.json({ message: 'Marker deleted successfully' });
+    await ArucoMarker.deleteArucoMarker(id);
+    res.json({ message: 'Aruco Marker deleted successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
 module.exports = {
-  getAllMarkers,
-  getMarkerById,
-  createMarker,
-  updateMarker,
-  deleteMarker
+  getAllArucoMarkers,
+  getArucoMarkerById,
+  createArucoMarker,
+  updateArucoMarker,
+  deleteArucoMarker
 };
