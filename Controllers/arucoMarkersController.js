@@ -26,9 +26,9 @@ const getArucoMarkerById = async (req, res) => {
 
 // Membuat ArUco marker baru
 const createArucoMarker = async (req, res) => {
-  const { building_id, floor, point_name, point_type, left_room_id, right_room_id, forward_room_id, backward_room_id, description } = req.body;
+  const { building_id, floor, point_name, point_type,  west_room_id, east_room_id, north_room_id, south_room_id, description } = req.body;
   try {
-    const result = await ArucoMarker.createArucoMarker(building_id, floor, point_name, point_type, left_room_id, right_room_id, forward_room_id, backward_room_id, description);
+    const result = await ArucoMarker.createArucoMarker(building_id, floor, point_name, point_type,  west_room_id, east_room_id, north_room_id, south_room_id, description);
     res.json(result.rows[0]);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -38,9 +38,9 @@ const createArucoMarker = async (req, res) => {
 // Mengubah data ArUco marker berdasarkan ID
 const updateArucoMarker = async (req, res) => {
   const { id } = req.params;
-  const { building_id, floor, point_name, point_type, left_room_id, right_room_id, forward_room_id, backward_room_id, description } = req.body;
+  const { building_id, floor, point_name, point_type, west_room_id, east_room_id, north_room_id, south_room_id, description } = req.body;
   try {
-    const result = await ArucoMarker.updateArucoMarker(id, building_id, floor, point_name, point_type, left_room_id, right_room_id, forward_room_id, backward_room_id, description);
+    const result = await ArucoMarker.updateArucoMarker(id, building_id, floor, point_name, point_type,  west_room_id, east_room_id, north_room_id, south_room_id, description);
     res.json(result.rows[0]);
   } catch (error) {
     res.status(500).json({ error: error.message });
